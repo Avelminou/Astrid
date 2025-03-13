@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titre de la page</title>
+    <link rel="stylesheet" href="meteo.css">
+    
+</head>
+<body>
+    <div class="pole">
+        <b class="empl">📍Emplacement par défaut: <rouge>Fianarantsoa</rouge> 🇲🇬</b><br><br>
+        <button class="choix"> <a href="localisation.html"> Choisir votre emplacement ici 🔍</a></button><br><br>
+    </div>
+    <div class="vide"></div>
+    <div class="tete">
+        <div class="left">
+            <button class="date"><verte>Aujourd'hui</verte></button>
+            <strong>Emplacement: </strong>
+            <p class="locale">Fianarantsoa📍</p>
+            <p>Haute_Matsiatra 🔮</p>
+            <p>Madagascar 🇲🇬</p>
+        </div>
+        <div class="right">
+            <p><k class="emoji">⛈️</k>
+                    Orage<br></p>
+            <p>🌡️<verte>17</verte>°C - <rouge>28</rouge>°C </p>
+            <p>💨15.7km/h. Sud-Est </p>
+            <p>❄️Risque de grêle: <verte>30</verte>%</p>
+        </div>
+    </div>
+    
+    <!-- Lundi -->
+        <div class="andro"><br>
+            <center><strong>Mercredi 12 Mars 2025</strong>
+            <br>
+            <br>💨 Vent: 17.8km/h.↖️Sud-Est
+            <br>🌡️Température: <verte>17</verte>°C - <rouge>28</rouge>°C
+            <br>⛱️Précipitation: <jaune>0.7</jaune>mm
+            <br>💧Humidité: <jaune>78</jaune>%
+            <br>☔Sensibilité de pluie: <jaune>99</jaune>%
+            <br><br>
+            <div class="protjour">
+                <div class="tjour">
+                    <strong>Matin:</strong><br>
+                    <k class="emoji">🌤️</k><br>
+                    Ensoleillé<br>
+                    🌡️temp: <verte>17</verte>°C<br>
+                    💨9km/h. N-E<br>
+                    🌪️Rafal: 12km/h
+                </div>
+                <div class="tjour">
+                    <strong>Après-midi:</strong><br>
+                    <k class="emoji">⛈️</k><br>
+                    Orage<br>
+                    🌡️temp: <rouge>28</rouge>°C<br>
+                    💨15.7km/h. S-E<br>
+                    🌪️Rafal: 22km/h
+                </div>
+                <div class="tjour">
+                    <strong>Nuit:</strong><br>
+                    <k class="emoji">☁️</k><br>
+                    Nuageuse<br>
+                    🌡️temp: <verte>23</verte>°C<br>
+                    💨10.8km/h. E<br>
+                    🌪️Rafal: 17km/h
+                </div>
+            </div>
+            
+            </center>
+        </div>
+        
+        <!-- Mardi -->
+        <div class="andro"><br>
+            <center><strong>Jeudi 13 Mars 2025</strong>
+            <br>
+            <br>💨 Vent: 12km/h.↙️Nord-Est
+            <br>🌡️Température: <verte>19</verte>°C - <rouge>26</rouge>°C
+            <br>⛱️Précipitation: <jaune>2.7</jaune>mm
+            <br>💧Humidité: <jaune>98</jaune>%
+            <br>☔Sensibilité de pluie: <jaune>100</jaune>%
+            <br><br>
+            <div class="protjour">
+                <div class="tjour">
+                    <strong>Matin:</strong><br>
+                    <k class="emoji">🌥️</k><br>
+                    Nuageux<br>
+                    🌡️temp: <verte>19</verte>°C<br>
+                    💨5km/h. S-E<br>
+                    🌪️Rafal: 7km/h
+                </div>
+                <div class="tjour">
+                    <strong>Après-midi:</strong><br>
+                    <k class="emoji">⛈️</k><br>
+                    Orage<br>
+                    🌡️temp: <rouge>26</rouge>°C<br>
+                    💨10.5km/h. N-E<br>
+                    🌪️Rafal: 21km/h
+                </div>
+                <div class="tjour">
+                    <strong>Nuit:</strong><br>
+                    <k class="emoji">☁️</k><br>
+                    Nuageuse<br>
+                    🌡️temp: <verte>22</verte>°C<br>
+                    💨8km/h. N<br>
+                    🌪️Rafal: 14km/h
+                </div>
+            </div>
+            
+            </center>
+        </div>
+        
+        <!-- Vendredi -->
+        <div class="andro"><br>
+            <center><strong>Vendredi 14 Mars 2025</strong>
+            <br>
+            <br>💨 Vent: 22km/h.↘️Nord-Ouest
+            <br>🌡️Température: <verte>20</verte>°C - <rouge>24</rouge>°C
+            <br>⛱️Précipitation: <jaune>17.9</jaune>mm
+            <br>💧Humidité: <jaune>100%</jaune>%
+            <br>☔Sensibilité de pluie: <jaune>100%</jaune>%
+            <br><br>
+            <div class="protjour">
+                <div class="tjour">
+                    <strong>Matin:</strong><br>
+                    <k class="emoji">☁️</k><br>
+                    Nuageux<br>
+                    🌡️temp: <verte>20</verte>°C<br>
+                    💨17km/h. N-O<br>
+                    🌪️Rafal: 29km/h
+                </div>
+                <div class="tjour">
+                    <strong>Après-midi:</strong><br>
+                    <k class="emoji">🌧️</k><br>
+                    Pluie<br>
+                    🌡️temp: <rouge>24</rouge>°C<br>
+                    💨20km/h. N-O<br>
+                    🌪️Rafal: 33km/h
+                </div>
+                <div class="tjour">
+                    <strong>Nuit:</strong><br>
+                    <k class="emoji">🌧️</k><br>
+                    Pluie<br>
+                    🌡️temp: <verte>21</verte>°C<br>
+                    💨34.7km/h. O<br>
+                    🌪️Rafal: 55km/h
+                </div>
+            </div>
+            
+            </center>
+        </div>
+        
+        <!-- Samedi -->
+        <div class="andro"><br>
+            <center><strong>Samedi 15 Mars 2025</strong>
+            <br>
+            <br>💨 Vent: 44.5km/h.↗️Sud-Ouest
+            <br>🌡️Température: <verte>17</verte>°C - <rouge>25</rouge>°C
+            <br>⛱️Précipitation: <jaune>11</jaune>mm
+            <br>💧Humidité: <jaune>90</jaune>%
+            <br>☔Sensibilité de pluie: <jaune>95</jaune>%
+            <br><br>
+            <div class="protjour">
+                <div class="tjour">
+                    <strong>Matin:</strong><br>
+                    <k class="emoji">🌧️</k><br>
+                    Pluie<br>
+                    🌡️temp: <verte>17</verte>°C<br>
+                    💨44.5km/h. S-O<br>
+                    🌪️Rafal: 68km/h
+                </div>
+                <div class="tjour">
+                    <strong>Après-midi:</strong><br>
+                    <k class="emoji">🌦️</k><br>
+                    Pluie<br>
+                    🌡️temp: <rouge>28</rouge>°C<br>
+                    💨30km/h. S<br>
+                    🌪️Rafal: 48km/h
+                </div>
+                <div class="tjour">
+                    <strong>Nuit:</strong><br>
+                    <k class="emoji">🌙</k><br>
+                    Claire<br>
+                    🌡️temp: <verte>23</verte>°C<br>
+                    💨18km/h. S-E<br>
+                    🌪️Rafal: 31km/h
+                </div>
+            </div>
+            
+            </center>
+        </div>
+        
+        <!-- Dimanche -->
+        <div class="andro"><br>
+            <center><strong>Dimanche 16 Mars 2025</strong>
+            <br>
+            <br>💨 Vent: 8km/h.↖️Sud-Est
+            <br>🌡️Température: <verte>16</verte>°C - <rouge>29</rouge>°C
+            <br>⛱️Précipitation: <jaune>0</jaune>mm
+            <br>💧Humidité: <jaune>50</jaune>%
+            <br>☔Sensibilité de pluie: <jaune>43</jaune>%
+            <br><br>
+            <div class="protjour">
+                <div class="tjour">
+                    <strong>Matin:</strong><br>
+                    <k class="emoji">🌞</k><br>
+                    Ensoleillé<br>
+                    🌡️temp: <verte>16</verte>°C<br>
+                    💨9km/h. E<br>
+                    🌪️Rafal: 13km/h
+                </div>
+                <div class="tjour">
+                    <strong>Après-midi:</strong><br>
+                    <k class="emoji">🌤️</k><br>
+                    Ensoleillé<br>
+                    🌡️temp: <rouge>29</rouge>°C<br>
+                    💨15km/h. S-E<br>
+                    🌪️Rafal: 26km/h
+                </div>
+                <div class="tjour">
+                    <strong>Nuit:</strong><br>
+                    <k class="emoji">🌙</k><br>
+                    Claire<br>
+                    🌡️temp: <verte>20</verte>°C<br>
+                    💨5km/h. E<br>
+                    🌪️Rafal: 11km/h
+                </div>
+            </div>
+            
+            </center>
+        </div>
+        
+        <div class="map">
+            <div class="mapleft">
+                <a href="#">📍Miarinavaratra</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+            </div>
+            <div class="mapright">
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+                <a href="#">📍</a><br>
+            </div>
+        </div>
+    
+    <div class="footer"><br>
+        <center><verte>mylainemimifi@gmail.com</verte></center>
+        <br><br>
+        <center>Digital © 2025</center>
+    </div>
+</body>
+</html>
