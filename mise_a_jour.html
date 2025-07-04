@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Titre de la page</title>
+    <style>
+  body {
+      background-color: #000000;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    } 
+    .pro {
+        height: 130px;
+        width: 130px;
+        background-color: none;
+        border-radius: 50%;
+        border: 2px #ffffff solid;
+        display: flex;
+        justify-content: center;
+      align-items: center;
+    }
+    .lg {
+        height: 10px;
+        width: 130px;
+        background-color: transparent;
+        animation: rotating 5s linear infinite;
+        
+    }
+    @keyframes rotating {
+        to {
+            transform: rotate(1turn)
+        }
+    }
+    .rg{
+        height: 10px;
+        background-color: #8f245e;
+        width: 75px;
+        
+    }
+    .dg {
+        height: 30px;
+        width: 30px;
+        background-color: #8f245e;
+        display: flex;
+        justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      border: 50px #999999 solid;
+    }
+    .centre {
+        height: 10px;
+        width: 47px;
+        background-color: white;
+        border-bottom-right-radius: 2px;
+        border-top-right-radius: 2px;
+        border-left: solid 2px black;
+        border-right: solid 2px black; 
+    }
+    .couleur {
+        height: 40px;
+        width: 50px;
+        background-image: -webkit-linear-gradient(blue,#999999);
+    }
+    </style>
+</head>
+<body>
+    <div class="dg">
+    <div class="pro">
+        
+        <div class="lg">
+            <div class="rg">
+                <div class="centre"></div>
+            </div>
+            <div class="couleur"></div>
+        </div>
+        
+    </div>
+    </div>
+    <br><br>
+    
+    
+    <strong style="font-size: 25px;">Nous sommes désolés !😢</strong>
+    <p style="color: #b1b1b1">La page que vous demandez est<br> en train de mise à jour.</p>
+    <span style="color: #6f6f6f">Veillez réessayer plus tard !</span>
+    
+    
+</body>
+</html>
