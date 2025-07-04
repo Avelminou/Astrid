@@ -70,7 +70,9 @@ body {
 }
 
 .menu {
-  font-size: 25px;
+  height: 35px;
+  width: 35px;
+  font-size: 20px;
 }
 
 .head {
