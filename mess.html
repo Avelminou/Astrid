@@ -9,24 +9,21 @@
 </head>
 
 <body>
-
   <div class="head">
     <button class="menu" onclick="openDrawer()">☰</button>
-
     <strong class="titre">Astrid</strong>
   </div>
 
   <div class="drawer" id="drawer">
-
     <!-- Bouton pour fermer le tiroir -->
-    <button class="btn-close" onclick="closeDrawer()">✕</button>
-    <button onclick="activerSon()">🔊 Activer le son</button><br><br>
-
+    <button class="btn-close" onclick="closeDrawer()" id="close" style="display: none;">✕</button>
+    <button onclick="basculerMode()" id="btnMode"  style="font-size: 20px;
+    border: 0; width: 266px; border: solid 2px rgba(245, 222, 179, 0); display: none;">🔁 Passer en mode privé</button>
+    <button class="gr" onclick="location.reload()" id="MdGroupe"   style="font-size: 16px;
+    background-color: rgba(0, 0, 255, 0); border: solid 2px rgba(102, 102, 126, 0); width: 266px;">🔁 Passer en mode groupe</button>
 
     <div class="photos_couverture">
-      <div class="photos_profil">
-
-      </div>
+      <div class="photos_profil"></div>
     </div>
 
     <br>
@@ -40,44 +37,39 @@
         <button style="margin-left: 5px;" onclick="changerPseudo()">Save</button>
       </div>
     </center>
+
+    <div id="utilisateur" style="padding: 10px;"></div>
+
+    <div id="listeUtilisateurs"></div>
+
   </div>
 
-
   <div style="height: 35px;"></div>
-
   <div id="messages"></div>
-
 
   <div class="send">
     <div style="display: flex;align-items: center;margin: 2px;">
-      <button onclick="ouvrirSelecteurImage()" style="border-radius: 4px;
-    border: 0; width: 30px; height: 30px;">+</button>
+      <button style="border-radius: 4px; border: 0; width: 30px; height: 30px;">+</button>
     </div>
     <textarea type="text" id="message" placeholder="Votre message"></textarea>
     <div style="display: flex;align-items: center; margin: 2px;">
       <button class="btn" onclick="envoyerMessage(idMessageRepondu)">￪</button>
-
     </div>
-
   </div>
+
   <!-- Ton son personnalisé -->
   <audio id="notificationSound" preload="auto">
     <source src="bling.mp3" type="audio/mpeg">
     Votre navigateur ne supporte pas l’audio.
   </audio>
 
-
   <!-- Modal pour modifier -->
   <div id="modalModif" class="modal">
     <div class="modal-content" style="color: black;">
-
       <button style="float: right; font-size: 17px; " onclick="quitter()">x</button>
-      <p style="color: white;">Vous voulez suprimer ce message !<br>
-        Cliquer sur <k style="color: crimson;">Suprimer</k> ou <j style="color: blue;">Annuler</j> en x</p>
-
-      <button style="margin-left: 40%;" onclick="deleteLe()">Suprimer</button>
-
-
+      <p style="color: white;">Vous voulez supprimer ce message !<br>
+        Cliquer sur <k style="color: crimson;">Supprimer</k> ou <j style="color: blue;">Annuler</j> en x</p>
+      <button style="margin-left: 40%;" onclick="deleteLe()">Supprimer</button>
     </div>
   </div>
 
@@ -86,7 +78,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script src="mess.js"></script>
   <script src="setting.js"></script>
-
 </body>
 
 </html>

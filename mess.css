@@ -163,10 +163,14 @@ textarea {
   background-color: #202020;
   display: flex;
   justify-content: center;
+  width: 100%;
+  border-bottom: 1px white solid;
 }
 
 .photos_profil {
   background-color: #a8a8a8;
+  background-image: url('profil.png');
+  background-size: 100px 100px;
   height: 100px;
   width: 100px;
   border-radius: 50%;
@@ -250,4 +254,30 @@ textarea {
   border-radius: 10px;
   width: 75%;
   box-shadow: 0 0 15px black;
+}
+#utilisateur ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 5px 0;
+}
+#utilisateur li {
+  background: #eee;
+  margin: 3px 0;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+li:active {
+  transform: scale(1.1);
+}
+#utilisateur {
+  overflow-y: auto;
+  max-height: 30vh;
+  padding: 5px;
+}
+.gr:active {
+  background-color: #7474748e;
+}
+.gr {
+  font-weight: bold;
+  color: white;
 }

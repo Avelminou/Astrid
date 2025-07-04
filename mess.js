@@ -12,22 +12,14 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 let idMessageRepondu = null;
-const notificationSound = document.getElementById("notificationSound");
+let idMessageASupprimer = null;
 let audioAutorise = false;
-
-function activerSon() {
-    notificationSound.play().then(() => {
-        audioAutorise = true;
-        alert("🔔 Son activé !");
-    }).catch((e) => {
-        alert("⚠️ Impossible d’activer le son : " + e.message);
-    });
-}
+let mode = "groupe";
+let utilisateurActif = null;
 
 function jouerSon(fichier) {
     new Audio(fichier).play();
 }
-
 
 window.onload = () => {
     const pseudoInput = document.getElementById("pseudo");
@@ -43,7 +35,22 @@ window.onload = () => {
     }
 
     afficherMessages();
+    afficherListeUtilisateurs();
+    document.getElementById("MdGroupe").style.display = "block"
 };
+
+function basculerMode() {
+    if (mode === "groupe") {
+        mode = "prive";
+        document.getElementById("MdGroupe").style.display = "block"
+        document.getElementById("btnMode").style.display = "none"
+    } else {
+        mode = "groupe";
+        utilisateurActif = null;
+        document.getElementById("message").placeholder = "Votre message";
+        afficherMessages();
+    }
+}
 
 function envoyerMessage(reponseDe = null) {
     const pseudoInput = document.getElementById("pseudo");
@@ -54,7 +61,7 @@ function envoyerMessage(reponseDe = null) {
         pseudo = pseudoInput.value.trim();
         if (!pseudo) {
             alert("Veuillez entrer votre nom");
-            openDrawer()
+            openDrawer();
             return;
         }
         localStorage.setItem("pseudo", pseudo);
@@ -72,7 +79,7 @@ function envoyerMessage(reponseDe = null) {
         date: firebase.firestore.FieldValue.serverTimestamp(),
         reactions: {},
         reponseDe: reponseDe || null,
-        imageUrl: null
+        destinataire: mode === "prive" ? utilisateurActif : null
     });
 
     messageInput.value = '';
@@ -80,84 +87,39 @@ function envoyerMessage(reponseDe = null) {
     idMessageRepondu = null;
 }
 
-function envoyerImage(file) {
-    const pseudo = localStorage.getItem("pseudo") || "Anonyme";
-    if (!file || !pseudo) return;
+function afficherMessages() {
+    db.collection("messages").orderBy("date").onSnapshot(snapshot => {
+        const messagesDiv = document.getElementById("messages");
+        messagesDiv.innerHTML = '';
 
-    const storageRef = firebase.storage().ref();
-    const imageRef = storageRef.child('images/' + Date.now() + '_' + file.name);
+        let tous = [];
+        snapshot.forEach(doc => {
+            const msg = doc.data();
+            msg.id = doc.id;
 
-    imageRef.put(file).then(snapshot => {
-        return snapshot.ref.getDownloadURL();
-    }).then(url => {
-        db.collection("messages").add({
-            pseudo: pseudo,
-            texte: "",
-            date: firebase.firestore.FieldValue.serverTimestamp(),
-            reactions: {},
-            reponseDe: idMessageRepondu || null,
-            imageUrl: url
+            if (mode === "groupe" && !msg.destinataire) {
+                tous.push(msg);
+            } else if (mode === "prive") {
+                const moi = localStorage.getItem("pseudo");
+                if (
+                    (msg.pseudo === moi && msg.destinataire === utilisateurActif) ||
+                    (msg.pseudo === utilisateurActif && msg.destinataire === moi)
+                ) {
+                    tous.push(msg);
+                }
+            }
         });
-    }).catch(err => {
-        alert("Erreur d'envoi d'image: " + err.message);
+
+        const parents = tous.filter(m => !m.reponseDe);
+        parents.forEach(msg => afficherMessageEtReponses(msg, tous));
+
+        requestAnimationFrame(() => {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+
+        if (audioAutorise) jouerSon("bling.mp3");
     });
 }
-
-function changeP() {
-    document.getElementById("pseudo").style.display = "block";
-}
-
-function changerPseudo() {
-    const pseudoInput = document.getElementById("pseudo");
-    const pseudo = pseudoInput.value.trim();
-    if (!pseudo) {
-        alert("Entrez un pseudo");
-        return;
-    }
-    localStorage.setItem("pseudo", pseudo);
-    pseudoInput.style.display = "none";
-    document.getElementById("monNom").textContent = pseudo;
-}
-
-function tempsDepuis(date) {
-    const secondes = Math.floor((Date.now() - date.getTime()) / 1000);
-    if (secondes < 60) return `il y a ${secondes} sec`;
-    const minutes = Math.floor(secondes / 60);
-    if (minutes < 60) return `il y a ${minutes} min`;
-    const heures = Math.floor(minutes / 60);
-    if (heures < 24) return `il y a ${heures} h`;
-    const jours = Math.floor(heures / 24);
-    return `il y a ${jours} j`;
-}
-
-function afficherMessages() {
-    db.collection("messages").orderBy("date")
-        .onSnapshot(snapshot => {
-            const messagesDiv = document.getElementById("messages");
-            messagesDiv.innerHTML = '';
-
-            let tousLesMessages = [];
-            snapshot.forEach(doc => {
-                const msg = doc.data();
-                tousLesMessages.push({ id: doc.id, ...msg });
-            });
-
-            const messagesParents = tousLesMessages.filter(m => !m.reponseDe);
-            messagesParents.forEach(msg => {
-                afficherMessageEtReponses(msg, tousLesMessages);
-            });
-
-            // ✅ Scroll vers le bas après affichage
-            requestAnimationFrame(() => {
-                const messagesDiv = document.getElementById("messages");
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            });
-
-
-            jouerSon("Blip.mp3");
-        });
-}
-
 
 function afficherMessageEtReponses(msg, tous) {
     const moi = localStorage.getItem("pseudo") || "";
@@ -169,26 +131,23 @@ function afficherMessageEtReponses(msg, tous) {
     const emojis = ["❤️", "😂", "👍", "😮", "😢"];
     const reactionsHTML = emojis.map(emoji => {
         const count = reactions[emoji]?.length || 0;
-        return `<button class=\"emoji-btn\" onclick=\"ajouterReaction('${msg.id}', '${emoji}')\">${emoji} ${count}</button>`;
+        return `<button class="emoji-btn" onclick="ajouterReaction('${msg.id}', '${emoji}')">${emoji} ${count}</button>`;
     }).join(" ");
 
-    const boutonSupprimer = estMoi ? `<button class=\"suppr-btn\" onclick=\"supprimerMessage('${msg.id}')\">❌</button>` : "";
-    const boutonRepondre = `<button class=\"reply-btn\" onclick=\"preparerReponse('${msg.id}', '${msg.pseudo}')\">💬 Répondre</button>`;
+    const boutonSupprimer = estMoi ? `<button class="suppr-btn" onclick="supprimerMessage('${msg.id}')">❌</button>` : "";
+    const boutonRepondre = `<button class="reply-btn" onclick="preparerReponse('${msg.id}', '${msg.pseudo}')">💬 Répondre</button>`;
 
-    let contenu = msg.texte ? `<div class=\"texto\">${msg.texte}</div>` : "";
-    if (msg.imageUrl) {
-        contenu += `<div><img src=\"${msg.imageUrl}\" style=\"max-width: 100%; border-radius: 10px;\"></div>`;
-    }
+    let contenu = msg.texte ? `<div class="texto">${msg.texte}</div>` : "";
 
     const messageHTML = `
-      <div class=\"${classBulle}\">
-        <div style=\"display: flex; justify-content: space-between; align-items: center;\">
+      <div class="${classBulle}">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
           <strong>${msg.pseudo}</strong>
           ${boutonSupprimer}
         </div>
         ${contenu}
-        <div class=\"reactions\">${reactionsHTML} ${boutonRepondre}</div>
-        <span style=\"font-size:10px; color:gray;\">${temps}</span>
+        <div class="reactions">${reactionsHTML} ${boutonRepondre}</div>
+        <span style="font-size:10px; color:gray;">${temps}</span>
       </div>`;
 
     document.getElementById("messages").innerHTML += messageHTML;
@@ -196,13 +155,13 @@ function afficherMessageEtReponses(msg, tous) {
     const reponses = tous.filter(m => m.reponseDe === msg.id);
     reponses.forEach(rep => {
         const tempsRep = tempsDepuis(rep.date.toDate());
-        const image = rep.imageUrl ? `<img src=\"${rep.imageUrl}\" style=\"max-width: 100%;\">` : "";
-        const texte = rep.texte ? rep.texte : "";
+        const texte = rep.texte || "";
         const repHTML = `
-          <div class=\"message reponse\">
-            <div><strong>${rep.pseudo}<span style=\"font-size:10px; color:gray;\"> à repomdu </span>${msg.pseudo}</strong></div>
-            <div class=\"texto\">${texte}${image}</div>
-            <span style=\"font-size:10px; color:gray;\">${tempsRep}</span>
+          <div class="message reponse">
+            <div><strong>${rep.pseudo}<span style="font-size:10px; color:gray;"
+            > a repondu </span>${msg.pseudo}</strong></div>
+            <div class="texto">${texte}</div>
+            <span style="font-size:10px; color:gray;">${tempsRep}</span>
           </div>`;
         document.getElementById("messages").innerHTML += repHTML;
     });
@@ -230,7 +189,6 @@ function ajouterReaction(messageId, emoji) {
     });
 }
 
-// 🔴 CONFIRMATION PERSONNALISÉE
 function supprimerMessage(messageId) {
     idMessageASupprimer = messageId;
     document.getElementById("modalModif").style.display = "flex";
@@ -240,43 +198,71 @@ function deleteLe() {
     if (!idMessageASupprimer) return;
 
     db.collection("messages").doc(idMessageASupprimer).delete()
-        .then(() => {
-            console.log("Message supprimé");
-        })
-        .catch(error => {
-            console.error("Erreur suppression :", error);
-        })
+        .then(() => console.log("Message supprimé"))
+        .catch(error => console.error("Erreur suppression :", error))
         .finally(() => {
-
             idMessageASupprimer = null;
         });
-    jouerSon("Blip.mp3")
+    jouerSon("bling.mp3");
     document.getElementById("modalModif").style.display = "none";
 }
+
 function quitter() {
     document.getElementById("modalModif").style.display = "none";
 }
 
 function preparerReponse(id, pseudo) {
-
     idMessageRepondu = id;
     const input = document.getElementById("message");
     input.placeholder = "Réponse à " + pseudo + "…";
     input.focus();
 }
 
-// Gestion du bouton image
-const inputImage = document.createElement('input');
-inputImage.type = 'file';
-inputImage.accept = 'image/*';
-inputImage.style.display = 'none';
-document.body.appendChild(inputImage);
+function changerPseudo() {
+    const pseudoInput = document.getElementById("pseudo");
+    const pseudo = pseudoInput.value.trim();
+    if (!pseudo) {
+        alert("Entrez un pseudo");
+        return;
+    }
+    localStorage.setItem("pseudo", pseudo);
+    pseudoInput.style.display = "none";
+    document.getElementById("monNom").textContent = pseudo;
+}
 
-inputImage.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) envoyerImage(file);
-});
+function changeP() {
+    document.getElementById("pseudo").style.display = "block";
+}
 
-function ouvrirSelecteurImage() {
-    inputImage.click();
+function tempsDepuis(date) {
+    const secondes = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (secondes < 60) return `il y a ${secondes} sec`;
+    const minutes = Math.floor(secondes / 60);
+    if (minutes < 60) return `il y a ${minutes} min`;
+    const heures = Math.floor(minutes / 60);
+    if (heures < 24) return `il y a ${heures} h`;
+    const jours = Math.floor(heures / 24);
+    return `il y a ${jours} j`;
+}
+
+function afficherListeUtilisateurs() {
+    db.collection("messages").get().then(snapshot => {
+        const noms = new Set();
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if (data.pseudo) noms.add(data.pseudo);
+        });
+
+        const html = "<h4>👥 Utilisateurs :</h4><ul>" +
+            Array.from(noms).sort().map(nom => `<li onclick=\"choisirUtilisateur('${nom}')\">${nom}</li>`).join("") +
+            "</ul>";
+        document.getElementById("utilisateur").innerHTML = html;
+    });
+}
+
+function choisirUtilisateur(nom) {
+    utilisateurActif = nom;
+    mode = "prive";
+    document.getElementById("message").placeholder = "À " + nom + "…";
+    afficherMessages();
 }
