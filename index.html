@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Chargement</title>
+  <style>
+    body {
+      background-color: #202020;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo img {
+      width: 80px;
+      height: 80px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #444;
+      animation: blink 1.5s infinite;
+    }
+
+    .dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .dot:nth-child(4) {
+      animation-delay: 0.6s;
+    }
+
+    .dot:nth-child(5) {
+      animation-delay: 0.8s;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        background-color: #444;
+      }
+
+      50% {
+        background-color: white;
+      }
+    }
+
+    .meta {
+      position: absolute;
+      bottom: 60px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .meta span {
+      display: block;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .modal-content {
+      background: #808080;
+      padding: 10px;
+      border-radius: 10px;
+      width: 65%;
+      box-shadow: 0 0 15px black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="logo">
+    <!-- Remplace cette image par ton logo si tu veux -->
+    <strong style="font-size: 55px; color: #ff8800;">Astrid</strong>
+  </div>
+  <div class="dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <div class="meta">
+    <img src="pretty.png" style="width: 50px;">
+  </div>
+
+  <!-- Modal pour modifier -->
+  <div id="modalModif" class="modal">
+    <div class="modal-content" style="color: black;">
+
+      <button style="float: right; font-size: 17px; " onclick="Android.quitApp()">x</button>
+      <p style="color: white;">Erreur de la connexion internet !<br>
+        Veillez réessayer.</p>
+
+      <button style="margin-left: 40%;" onclick="Android.openNetworkSettings()">Vérifier</button>
+
+
+    </div>
+  </div>
+
+
+  <script>
+    function checkInternetAccess(callback) {
+      fetch("https://www.google.com/favicon.ico", { method: 'HEAD', mode: 'no-cors' })
+        .then(() => callback(true))
+        .catch(() => callback(false));
+    }
+
+    setTimeout(() => {
+      checkInternetAccess((isOnline) => {
+        if (isOnline) {
+          // Connexion active : redirige vers Google
+          window.location.href = "mess.html";
+        } else {
+          // Pas de connexion : affiche le modal
+          document.getElementById("modalModif").style.display = "flex";
+        }
+      });
+    }, 3000);
+  </script>
+
+</body>
+
+</html>

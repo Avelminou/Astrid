@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat Firebase avec Son & Date</title>
+  <link rel="stylesheet" href="mess.css">
+</head>
+
+<body>
+
+  <div class="head">
+    <button class="menu" onclick="openDrawer()">☰</button>
+
+    <strong class="titre">Astrid</strong>
+  </div>
+
+  <div class="drawer" id="drawer">
+
+    <!-- Bouton pour fermer le tiroir -->
+    <button class="btn-close" onclick="closeDrawer()">✕</button>
+    <button onclick="activerSon()">🔊 Activer le son</button><br><br>
+
+
+    <div class="photos_couverture">
+      <div class="photos_profil">
+
+      </div>
+    </div>
+
+    <br>
+    <center>
+      <b>
+        <div id="monNom"></div>
+      </b>
+      <div style="display: flex; justify-content: center;">
+        <button id="changerNom" onclick="changeP()">✏️</button>
+        <input style="display: none;" type="text" id="pseudo" placeholder="Votre nom">
+        <button style="margin-left: 5px;" onclick="changerPseudo()">Save</button>
+      </div>
+    </center>
+  </div>
+
+
+  <div style="height: 35px;"></div>
+
+  <div id="messages"></div>
+
+
+  <div class="send">
+    <div style="display: flex;align-items: center;margin: 2px;">
+      <button onclick="ouvrirSelecteurImage()" style="border-radius: 4px;
+    border: 0; width: 30px; height: 30px;">+</button>
+    </div>
+    <textarea type="text" id="message" placeholder="Votre message"></textarea>
+    <div style="display: flex;align-items: center; margin: 2px;">
+      <button class="btn" onclick="envoyerMessage(idMessageRepondu)">￪</button>
+
+    </div>
+
+  </div>
+  <!-- Ton son personnalisé -->
+  <audio id="notificationSound" preload="auto">
+    <source src="bling.mp3" type="audio/mpeg">
+    Votre navigateur ne supporte pas l’audio.
+  </audio>
+
+
+  <!-- Modal pour modifier -->
+  <div id="modalModif" class="modal">
+    <div class="modal-content" style="color: black;">
+
+      <button style="float: right; font-size: 17px; " onclick="quitter()">x</button>
+      <p style="color: white;">Vous voulez suprimer ce message !<br>
+        Cliquer sur <k style="color: crimson;">Suprimer</k> ou <j style="color: blue;">Annuler</j> en x</p>
+
+      <button style="margin-left: 40%;" onclick="deleteLe()">Suprimer</button>
+
+
+    </div>
+  </div>
+
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="mess.js"></script>
+  <script src="setting.js"></script>
+
+</body>
+
+</html>
