@@ -9,9 +9,14 @@
 </head>
 
 <body>
+    
   <div class="head">
+      
+      <div class="wave"></div>
+      
     <button class="menu" onclick="openDrawer()">☰</button>
     <strong class="titre">Astrid Lite</strong>
+    
   </div>
 
   <div class="drawer" id="drawer">
@@ -24,18 +29,19 @@
     <div class="photos_couverture">
       <div id="pdp" class="photos_profil"></div>
     </div>
-
-    <br>
-    <center>
-      <b>
+    
+      <div style="background-color: #cecece; height: 80px; padding-top: 20px;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;">
+          <center>
         <div id="monNom"></div>
       </b>
       <div style="display: flex; justify-content: center;">
         <button id="changerNom" onclick="changeP()">✏️</button>
         <input style="display: none;" type="text" id="pseudo" placeholder="Votre nom">
-        <button style="margin-left: 5px;" onclick="changerPseudo()">Save</button>
+        <button id="sv" style="margin-left: 5px; display: none;" onclick="changerPseudo()">Save</button>
+        <span id="mesReactions" style="margin-left: 10px;"></span>
       </div>
     </center>
+    </div>
 
     <div id="utilisateur" style="padding: 10px;"></div>
 
@@ -45,7 +51,7 @@
 
   <div style="height: 35px;"></div>
 
-  <div class="tiste_perso" id="perso" style="background-color: rgb(79, 203, 207);">
+  <div class="tiste_perso" id="perso" style="display: flex; background-image: -webkit-linear-gradient(#6b6b6b,#4e006b);">
 
   </div>
 

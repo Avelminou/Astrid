@@ -36,6 +36,7 @@ window.onload = () => {
 
     afficherMessages();
     afficherListeUtilisateurs();
+    afficherMesReactions();
     document.getElementById("MdGroupe").style.display = "block";
 };
 
@@ -236,10 +237,15 @@ function changerPseudo() {
     localStorage.setItem("pseudo", pseudo);
     pseudoInput.style.display = "none";
     document.getElementById("monNom").textContent = pseudo;
+    document.getElementById("sv").style.display = "none";
+    document.getElementById("changerNom").style.display = "block";
+    location.reload()
 }
 
 function changeP() {
     document.getElementById("pseudo").style.display = "block";
+    document.getElementById("sv").style.display = "block";
+    document.getElementById("changerNom").style.display = "none";
 }
 
 function tempsDepuis(date) {
@@ -254,11 +260,24 @@ function tempsDepuis(date) {
 }
 
 function afficherListeUtilisateurs() {
+    // On récupère tous les messages
     db.collection("messages").get().then(snapshot => {
         const noms = new Set();
+        const compteurReactions = {};
+
         snapshot.forEach(doc => {
             const data = doc.data();
-            if (data.pseudo) noms.add(data.pseudo);
+            const pseudo = data.pseudo;
+            const reactions = data.reactions || {};
+
+            if (pseudo) {
+                noms.add(pseudo);
+                if (!compteurReactions[pseudo]) compteurReactions[pseudo] = 0;
+
+                Object.values(reactions).forEach(liste => {
+                    compteurReactions[pseudo] += liste.length;
+                });
+            }
         });
 
         const html = "<h4>👥 Utilisateurs :</h4><ul style='height: 67vh; overflow-y: auto;'>" +
@@ -267,21 +286,29 @@ function afficherListeUtilisateurs() {
                     <div class="pers" style=\"width:44px;height:44px;border-radius:50%;background-size:cover;background-position:center;
                         background-image:url('https://avelminou.github.io/ikwely.mg/${nom}.jpg');margin-right:8px; background-color: #eee;\">
                     </div>
-                    ${nom}
+                    <div>
+                        <strong>${nom}</strong><br>
+                        <span style="font-size:11px; color:gray;">❤️ ${compteurReactions[nom] || 0} réactions</span>
+                    </div>
                 </li>`).join("") +
             "</ul>";
+
         document.getElementById("utilisateur").innerHTML = html;
-        const aaaa = document.getElementById("pdp")
+
+        const aaaa = document.getElementById("pdp");
         const pseudoako = localStorage.getItem("pseudo");
         const liste_en_haut = Array.from(noms).sort().map(nom => `
+            <div>
             <button id=\"minou\" class=\"perso\"
                 style=\"background-image: url('https://avelminou.github.io/ikwely.mg/${nom}.jpg');
-                       background-size: 44px 44px; background-position: center; background-color: #eee;\"
+                       background-size: 44px 44px; background-position: center; background-color: #eee;  border: solid 1px white; margin-right: 5px;\"
                 onclick=\"choisirUtilisateur('${nom}')\">
-            </button>`).join("");
+            </button><center>
+            <span style="font-size: 11px; color: white">${nom.substring(0,8)}</span></center>
+            </div>`).join("");
 
-        aaaa.style.backgroundImage = `url('https://avelminou.github.io/ikwely.mg/${pseudoako}.jpg')`
-        
+        aaaa.style.backgroundImage = `url('https://avelminou.github.io/ikwely.mg/${pseudoako}.jpg')`;
+
         document.getElementById("perso").innerHTML = liste_en_haut;
     });
 }
@@ -291,4 +318,30 @@ function choisirUtilisateur(nom) {
     mode = "prive";
     document.getElementById("message").placeholder = "À " + nom + "…";
     afficherMessages();
+}
+
+
+
+function afficherMesReactions() {
+    const myName = localStorage.getItem("pseudo");
+    if (!myName) return;
+
+    let total = 0;
+
+    db.collection("messages").where("pseudo", "==", myName).get().then(snapshot => {
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const reactions = data.reactions || {};
+
+            Object.values(reactions).forEach(liste => {
+                total += liste.length;
+            });
+        });
+
+        // Afficher dans le span à côté du bouton "Changer nom"
+        const spanReactions = document.getElementById("mesReactions");
+        if (spanReactions) {
+            spanReactions.textContent = `❤️ ${total} J'adore${total > 1 ? "s" : ""}`;
+        }
+    });
 }
