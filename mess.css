@@ -5,7 +5,7 @@ body {
 }
 
 #messages {
-  height: calc(100vh - 160px);
+  height: calc(100vh - 220px);
   overflow-y: auto;
   padding: 10px;
   background: #fff;
@@ -169,7 +169,6 @@ textarea {
 
 .photos_profil {
   background-color: #a8a8a8;
-  background-image: url('profil.png');
   background-size: 100px 100px;
   height: 100px;
   width: 100px;
@@ -271,7 +270,7 @@ li:active {
 }
 #utilisateur {
   overflow-y: auto;
-  max-height: 30vh;
+  height: 67vh;
   padding: 5px;
 }
 .gr:active {
@@ -280,4 +279,30 @@ li:active {
 .gr {
   font-weight: bold;
   color: white;
+  font-size: 16px;
+  background-color: rgba(0, 0, 255, 0);
+  border: solid 2px rgba(102, 102, 126, 0);
+  width: 266px;
+  margin-top: 4px;
+}
+.perso {
+  width: 44px;
+  height: 44px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-radius: 50%;
+  border: solid 1px rgba(255, 255, 255, 0);
+  font-size: 10px;
+  background-color: #ffffff;
+  color: white;
+}
+.perso:active {
+  transform: scale(1.1);
+}
+.liste_perso {
+  height: 50px;
+  overflow-x: auto;
+}
+.pers {
+  background-color: white;
 }

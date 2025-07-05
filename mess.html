@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chat Firebase avec Son & Date</title>
+  <title>Astrid Lite</title>
   <link rel="stylesheet" href="mess.css">
 </head>
 
 <body>
   <div class="head">
     <button class="menu" onclick="openDrawer()">☰</button>
-    <strong class="titre">Astrid</strong>
+    <strong class="titre">Astrid Lite</strong>
   </div>
 
   <div class="drawer" id="drawer">
@@ -19,11 +19,10 @@
     <button class="btn-close" onclick="closeDrawer()" id="close" style="display: none;">✕</button>
     <button onclick="basculerMode()" id="btnMode"  style="font-size: 20px;
     border: 0; width: 266px; border: solid 2px rgba(245, 222, 179, 0); display: none;">🔁 Passer en mode privé</button>
-    <button class="gr" onclick="location.reload()" id="MdGroupe"   style="font-size: 16px;
-    background-color: rgba(0, 0, 255, 0); border: solid 2px rgba(102, 102, 126, 0); width: 266px;">🔁 Passer en mode groupe</button>
+    <button class="gr" onclick="location.reload()" id="MdGroupe">🔁 Passer en mode groupe</button>
 
     <div class="photos_couverture">
-      <div class="photos_profil"></div>
+      <div id="pdp" class="photos_profil"></div>
     </div>
 
     <br>
@@ -45,6 +44,12 @@
   </div>
 
   <div style="height: 35px;"></div>
+
+  <div class="tiste_perso" id="perso" style="background-color: rgb(79, 203, 207);">
+
+  </div>
+
+
   <div id="messages"></div>
 
   <div class="send">

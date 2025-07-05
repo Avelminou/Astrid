@@ -13,7 +13,7 @@ const db = firebase.firestore();
 
 let idMessageRepondu = null;
 let idMessageASupprimer = null;
-let audioAutorise = false;
+let audioAutorise = true;
 let mode = "groupe";
 let utilisateurActif = null;
 
@@ -36,17 +36,19 @@ window.onload = () => {
 
     afficherMessages();
     afficherListeUtilisateurs();
-    document.getElementById("MdGroupe").style.display = "block"
+    document.getElementById("MdGroupe").style.display = "block";
 };
 
 function basculerMode() {
     if (mode === "groupe") {
         mode = "prive";
-        document.getElementById("MdGroupe").style.display = "block"
-        document.getElementById("btnMode").style.display = "none"
+        document.getElementById("MdGroupe").style.display = "block";
+        document.getElementById("btnMode").style.display = "none";
     } else {
         mode = "groupe";
         utilisateurActif = null;
+        document.getElementById("btnMode").style.display = "block";
+        document.getElementById("MdGroupe").style.display = "none";
         document.getElementById("message").placeholder = "Votre message";
         afficherMessages();
     }
@@ -117,7 +119,7 @@ function afficherMessages() {
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         });
 
-        if (audioAutorise) jouerSon("bling.mp3");
+        if (audioAutorise) jouerSon("Blip.mp3");
     });
 }
 
@@ -142,6 +144,9 @@ function afficherMessageEtReponses(msg, tous) {
     const messageHTML = `
       <div class="${classBulle}">
         <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style=\"width:15px;height:15px;border-radius:50%;background-size:cover;background-position:center;
+                        background-image:url('https://avelminou.github.io/ikwely.mg/${msg.pseudo}.jpg');margin-right:8px;\">
+            </div>
           <strong>${msg.pseudo}</strong>
           ${boutonSupprimer}
         </div>
@@ -158,8 +163,11 @@ function afficherMessageEtReponses(msg, tous) {
         const texte = rep.texte || "";
         const repHTML = `
           <div class="message reponse">
-            <div><strong>${rep.pseudo}<span style="font-size:10px; color:gray;"
-            > a repondu </span>${msg.pseudo}</strong></div>
+            <div style="display: flex;"><div style=\"width:15px;height:15px;border-radius:50%;background-size:cover;background-position:center;
+                        background-image:url('https://avelminou.github.io/ikwely.mg/${rep.pseudo}.jpg');margin-right:8px;\">
+            </div><strong  style="display: flex;">${rep.pseudo}<span style="font-size:10px; color:gray; margin: 3px;"> a repondu </span><div style=\"width:15px;height:15px;border-radius:50%;background-size:cover;background-position:center;
+                        background-image:url('https://avelminou.github.io/ikwely.mg/${msg.pseudo}.jpg');margin-right:3px;\">
+            </div>${msg.pseudo}</strong></div>
             <div class="texto">${texte}</div>
             <span style="font-size:10px; color:gray;">${tempsRep}</span>
           </div>`;
@@ -203,7 +211,7 @@ function deleteLe() {
         .finally(() => {
             idMessageASupprimer = null;
         });
-    jouerSon("bling.mp3");
+    jouerSon("Blip.mp3");
     document.getElementById("modalModif").style.display = "none";
 }
 
@@ -253,10 +261,28 @@ function afficherListeUtilisateurs() {
             if (data.pseudo) noms.add(data.pseudo);
         });
 
-        const html = "<h4>👥 Utilisateurs :</h4><ul>" +
-            Array.from(noms).sort().map(nom => `<li onclick=\"choisirUtilisateur('${nom}')\">${nom}</li>`).join("") +
+        const html = "<h4>👥 Utilisateurs :</h4><ul style='height: 67vh; overflow-y: auto;'>" +
+            Array.from(noms).sort().map(nom => `
+                <li onclick=\"choisirUtilisateur('${nom}')\" style=\"display:flex;align-items:center;margin:5px;\">
+                    <div class="pers" style=\"width:44px;height:44px;border-radius:50%;background-size:cover;background-position:center;
+                        background-image:url('https://avelminou.github.io/ikwely.mg/${nom}.jpg');margin-right:8px; background-color: #eee;\">
+                    </div>
+                    ${nom}
+                </li>`).join("") +
             "</ul>";
         document.getElementById("utilisateur").innerHTML = html;
+        const aaaa = document.getElementById("pdp")
+        const pseudoako = localStorage.getItem("pseudo");
+        const liste_en_haut = Array.from(noms).sort().map(nom => `
+            <button id=\"minou\" class=\"perso\"
+                style=\"background-image: url('https://avelminou.github.io/ikwely.mg/${nom}.jpg');
+                       background-size: 44px 44px; background-position: center; background-color: #eee;\"
+                onclick=\"choisirUtilisateur('${nom}')\">
+            </button>`).join("");
+
+        aaaa.style.backgroundImage = `url('https://avelminou.github.io/ikwely.mg/${pseudoako}.jpg')`
+        
+        document.getElementById("perso").innerHTML = liste_en_haut;
     });
 }
 
