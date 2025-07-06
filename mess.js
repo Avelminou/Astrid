@@ -236,6 +236,10 @@ function changerPseudo() {
     }
     localStorage.setItem("pseudo", pseudo);
     pseudoInput.style.display = "none";
+    
+                
+            
+    
     document.getElementById("monNom").textContent = pseudo;
     document.getElementById("sv").style.display = "none";
     document.getElementById("changerNom").style.display = "block";
@@ -318,6 +322,7 @@ function choisirUtilisateur(nom) {
     mode = "prive";
     document.getElementById("message").placeholder = "À " + nom + "…";
     afficherMessages();
+    drawer.classList.remove('open');
 }
 
 
