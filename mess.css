@@ -1,17 +1,18 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  margin: 0 auto;
+  background-color: #340d50;
+  margin: 0;
 }
 
 .wave {
-      position: absolute;
+      position:absolute;
       top: 0;
       left: -90%;
       width: 30%;
       height: 100%;
       background-color: #f800ff5c;
       animation: slide 5s linear infinite;
+      z-index: 1000;
 }
 
 @keyframes slide {
@@ -89,13 +90,49 @@ body {
   width: 35px;
   font-size: 20px;
   position: fixed;
+  background-image: url('pr.jpg');
+  background-size: 35px 35px;
+  border: 0;
   top: 0;
+  border-radius: 4px;
   left: 0;
+}
+.menu:active {
+    transform: scale(1.1)
+}
+
+.btnPub {
+  float: right;
+}
+.btnpub {
+  height: 35px;
+  width: 35px;
+  font-size: 20px;
+  background-image: url('home.jpg');
+  background-size: 35px 35px;
+  border: 0;
+  border-radius: 4px;
+}
+.btnpub:active {
+    transform: scale(1.1)
+}
+.btnmess {
+    height: 35px;
+  width: 35px;
+  font-size: 20px;
+  background-image: url('ms.jpg');
+  background-size: 35px 35px;
+  border: 0;
+  margin-right: 5px;
+  border-radius: 4px;
+}
+.btnmess:active {
+    transform: scale(1.1)
 }
 
 .head {
   height: 35px;
-  background-color: #004d98;
+  background-color: #38085d;
   border-bottom: solid 1px gray;
   position: fixed;
   width: 100%;

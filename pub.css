@@ -1,0 +1,95 @@
+body {
+      margin: 0;
+      font-family: sans-serif;
+      padding: 0;
+      background-color: #340d50;
+    }
+
+    #galerie img {
+      width: 100vw;
+      border-radius: 8px;
+      height: auto;
+      object-fit: cover;
+    }
+      
+
+    #galerie {
+      gap: 10px;
+      height: auto;
+    }
+
+    #pseudoZone {
+      font-weight: bold;
+      margin-bottom: 0px;
+      left: 0;
+      top: 0;
+      padding: 0;
+    }
+
+    .like {
+      cursor: pointer;
+      color: gray;
+    }
+
+    .like.active {
+      color: red;
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .galerie {
+      height: auto;
+      width: 100vw;
+    }
+    .commentaire {
+      border-top: 1px solid #ccc;
+      margin-top: 5px;
+      padding: 5px;
+      font-size: 14px;
+    }
+    .commentaire strong {
+      font-size: 15px;
+    }
+    .carte {
+      margin-top: 5px;
+      border: 1px solid #aaa;
+      border-radius: 10px;
+      max-width: 100vw;
+      font-size: 12px;
+      background: #f9f9f9;
+    
+    }
+textarea {
+    resize: none;
+    width: 90%;
+    background-color: #b1b1b1;
+    border: none;
+}
+
+.compte {
+    display: block;
+    background-color: #ffffff;
+    color: black;
+    padding: 10px;
+    border-radius-bottom: 10px;
+    position: fixed;
+    width: 80vw;
+    background-color: #969696;
+    font-size: 25px;
+    z-index: 1000;
+}
+.protege {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-color: #004d98;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

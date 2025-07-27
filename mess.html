@@ -10,6 +10,7 @@
 
 <body>
     
+    
   <div class="head">
       
       <div class="wave"></div>
@@ -17,14 +18,19 @@
     <button class="menu" onclick="openDrawer()">☰</button>
     <strong class="titre">Astrid Lite</strong>
     
+    <div class="btnPub">
+    <button onclick="Messenger()" class="btnmess"></button>
+        <button onclick="cache()" class="btnpub"></button>
+    </div>
+    
   </div>
 
   <div class="drawer" id="drawer">
     <!-- Bouton pour fermer le tiroir -->
     <button class="btn-close" onclick="closeDrawer()" id="close" style="display: none;">✕</button>
     <button onclick="basculerMode()" id="btnMode"  style="font-size: 20px;
-    border: 0; width: 266px; border: solid 2px rgba(245, 222, 179, 0); display: none;">🔁 Passer en mode privé</button>
-    <button class="gr" onclick="location.reload()" id="MdGroupe">🔁 Passer en mode groupe</button>
+    border: 0; width: 266px; border: solid 2px rgba(245, 222, 179, 0); display: none;">Astrid lite by Avel Mimilitia</button>
+    <button class="gr" onclick="location.reload()" id="MdGroupe">Astrid lite by Avel Mimilitia</button>
 
     <div class="photos_couverture">
       <div id="pdp" class="photos_profil"></div>
@@ -54,11 +60,15 @@
   <div class="tiste_perso" id="perso" style="display: flex; background-image: -webkit-linear-gradient(#6b6b6b,#4e006b); overflow-x: auto;">
 
   </div>
-
-
+<iframe id="public"
+  src="publication.html" 
+  style="border: none; width: 100%; height: calc(100vh - 45px); overflow-y: scroll; overflow-x: hidden; display: none;"
+  scrolling="yes">
+</iframe>
+ 
   <div id="messages"></div>
 
-  <div class="send">
+  <div class="send" id="Sms">
     <div style="display: flex;align-items: center;margin: 2px;">
       <button style="border-radius: 4px; border: 0; width: 30px; height: 30px;">+</button>
     </div>
@@ -89,6 +99,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script src="mess.js"></script>
   <script src="setting.js"></script>
+  <script src="cote.js"></script>
 </body>
 
 </html>

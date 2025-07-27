@@ -21,6 +21,9 @@ function jouerSon(fichier) {
     new Audio(fichier).play();
 }
 
+
+
+
 window.onload = () => {
     const pseudoInput = document.getElementById("pseudo");
     const savedPseudo = localStorage.getItem("pseudo");
@@ -349,4 +352,19 @@ function afficherMesReactions() {
             spanReactions.textContent = `❤️ ${total} J'adore${total > 1 ? "s" : ""}`;
         }
     });
+}
+
+
+function cache() {
+    document.getElementById("public").style.display = "block"
+    document.getElementById("perso").style.display = "none"
+    document.getElementById("messages").style.display = "none"
+    document.getElementById("Sms").style.display = "none"
+}
+
+function Messenger() {
+    document.getElementById("public").style.display = "none"
+    document.getElementById("perso").style.display = "flex"
+    document.getElementById("messages").style.display = "block"
+    document.getElementById("Sms").style.display = "flex"
 }

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publication</title>
+  <link rel="stylesheet" href="./pub.css">
+  
+</head>
+<body>
+    <div style="display: flex; background-color: #ffffff;color: black; padding: 0; border-radius-bottom: 10px;">
+  <div id="pseudoZone">
+      <div class="protege" id="ident">
+    <div class="compte" id="identification">
+      Pseudo : <input id="pseudoInput" placeholder="Ton pseudo" required>
+      <input type="file" id="avatarInput" accept="image/*">      
+      <button onclick="validerPseudo()" style="font-size:17px;">Valider</button>
+    </div>
+    </div>
+    <div id="afficheCompte" style="display:none;">
+      
+      <img id="afficheAvatar" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 1px solid white; vertical-align:middle;margin-top: 10px;">
+      <strong id="affichePseudo" style="padding: 15px;"></strong>
+    </div>
+  </div>
+ <div style="width: 100%">
+  <form id="formulaire" style="display:none;">
+    <br>
+    <input type="text" id="titre" placeholder="Ajouter un titre" required style="width: 90%;border: none; background-color: #b1b1b1;"><br>
+    <textarea id="description" placeholder="Description"></textarea><br>
+    <input type="file" id="imageInput" accept="image/*" required>
+    <button type="submit" style="margin-left: 170px; margin-bottom: 3px;">Partager</button>
+  </form>
+</div>
+</div>
+  <div id="galerie"></div>
+  
+  <div id="zoomViewer" style="
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.95);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+">
+  <img id="zoomImage" src="" style="max-width: 90vw; max-height: 80vh; border-radius: 10px; margin-bottom: 15px;">
+  <a id="downloadBtn" download="image.jpg" style="
+    color: white;
+    background: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+  ">Télécharger</a>
+</div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore, collection, addDoc, onSnapshot,
+      doc, updateDoc, arrayUnion, arrayRemove,
+      query, orderBy
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7fvrEaET7j15TtmOy-9sNHHqjEx738_w",
+      authDomain: "bdavel-ca1eb.firebaseapp.com",
+      projectId: "bdavel-ca1eb",
+      storageBucket: "bdavel-ca1eb.appspot.com",
+      messagingSenderId: "6657641572",
+      appId: "1:6657641572:web:00b8bbdecee9db98f86371"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const pseudoInput = document.getElementById("pseudoInput");
+    
+    const imageInput = document.getElementById("imageInput");
+    const form = document.getElementById("formulaire");
+    const galerie = document.getElementById("galerie");
+    const affichePseudo = document.getElementById("affichePseudo");
+    const afficheAvatar = document.getElementById("afficheAvatar");
+
+
+function insert() {
+    imageInput.click();
+}
+
+
+    const storedPseudo = localStorage.getItem("pseudo");
+    const storedAvatar = localStorage.getItem("avatar");
+    if (storedAvatar) {
+      document.getElementById("identification").style.display = "none";
+      document.getElementById("ident").style.display = "none";
+      document.getElementById("afficheCompte").style.display = "block";
+      form.style.display = "block";
+      affichePseudo.textContent = storedPseudo;
+      
+    }
+
+    window.validerPseudo = async () => {
+  const pseudo = pseudoInput.value.trim();
+  const avatarInputEl = document.getElementById("avatarInput");
+  const avatarFile = avatarInputEl.files[0];
+
+  if (!pseudo || !avatarFile) {
+    return alert("Pseudo + avatar requis");
+  }
+
+  const avatarURL = `http://avelminou.github.io/ikwely.mg/${pseudo}.jpg`;
+
+  // Tu peux maintenant utiliser pseudo, avatarFile, et avatarURL
+  console.log("Pseudo :", pseudo);
+  console.log("Fichier Avatar :", avatarFile);
+  console.log("URL estimée :", avatarURL);
+  
+      const avatarBase64 = await redimensionnerImage(avatarFile, 200, 200);
+      localStorage.setItem("pseudo", pseudo);
+      localStorage.setItem("avatar", avatarBase64);
+      location.reload();
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const pseudo = localStorage.getItem("pseudo");
+      const avatar = localStorage.getItem("avatar");
+      const titre = document.getElementById("titre").value;
+      const description = document.getElementById("description").value;
+      const file = imageInput.files[0];
+      if (!file) return;
+
+      const imageBase64 = await redimensionnerImage(file, 500, 500);
+
+      await addDoc(collection(db, "images"), {
+        pseudo,
+        avatar,
+        image: imageBase64,
+        titre,
+        description,
+        timestamp: Date.now(),
+        likes: [],
+        commentaires: []
+      });
+
+      form.reset();
+    });
+
+    function redimensionnerImage(fichier, largeur, hauteur) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = largeur;
+            canvas.height = hauteur;
+            const ctx = canvas.getContext("2d");
+
+            const ratioImage = img.width / img.height;
+            const ratioCanvas = largeur / hauteur;
+
+            let sx, sy, sw, sh;
+            if (ratioImage > ratioCanvas) {
+              sh = img.height;
+              sw = sh * ratioCanvas;
+              sx = (img.width - sw) / 2;
+              sy = 0;
+            } else {
+              sw = img.width;
+              sh = sw / ratioCanvas;
+              sx = 0;
+              sy = (img.height - sh) / 2;
+            }
+
+            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, largeur, hauteur);
+            resolve(canvas.toDataURL("image/jpeg", 0.8));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(fichier);
+      });
+    }
+
+    function formatDate(timestamp) {
+      const diff = Date.now() - timestamp;
+      const min = Math.floor(diff / 60000);
+      if (min < 1) return "maintenant";
+      if (min < 60) return `il y a ${min} min`;
+      const h = Math.floor(min / 60);
+      if (h < 24) return `il y a ${h}h`;
+      const j = Math.floor(h / 24);
+      return `il y a ${j}j`;
+    }
+
+    const imagesQuery = query(collection(db, "images"), orderBy("timestamp", "desc"));
+    onSnapshot(imagesQuery, (snapshot) => {
+      galerie.innerHTML = "";
+      const pseudo = localStorage.getItem("pseudo");
+
+      snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        const id = docSnap.id;
+        const carte = document.createElement("div");
+        carte.className = "carte";
+        const avatarURL = `http://avelminou.github.io/ikwely.mg/${pseudo}.jpg`;
+
+        carte.innerHTML += `
+          <div style="display: flex;">
+            <img src="${avatarURL}" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:1px solid #333; margin-right:10px;">
+            <div style="margin-top: 15px; width: 130px;"><strong style="font-size: 20px;">${d.pseudo}</strong><br><small>• ${formatDate(d.timestamp)}</small></div><h2>${d.titre}</h2>
+          </div>
+          
+          <p style="font-size: 15px;">${d.description}</p>
+          <img class="voir" src="${d.image}" alt="image" style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;">
+          <div style="margin: 5px 0;">
+            <span class="like ${(d.likes || []).includes(pseudo) ? 'active' : ''}" data-id="${id}" style="cursor:pointer; font-size: 20px;">❤️ ${(d.likes || []).length} </span><span style="font-size:16px;">personnes aiment ça </span>
+          </div>
+          <div class="commentaires" id="coms-${id}"></div>
+          <div style="margin: 5px;">
+            <input type="text" placeholder="Ton commentaire..." style="width:80%;" id="inputCom-${id}">
+            <button onclick="ajouterCom('${id}')">Coms</button>
+          </div>
+        `;
+        
+
+        carte.querySelector(".like").addEventListener("click", async () => {
+          const ref = doc(db, "images", id);
+          if ((d.likes || []).includes(pseudo)) {
+            await updateDoc(ref, { likes: arrayRemove(pseudo) });
+          } else {
+            await updateDoc(ref, { likes: arrayUnion(pseudo) });
+          }
+        });
+        const imgZoom = carte.querySelector(".voir");
+imgZoom.addEventListener("dblclick", () => {
+  const zoomViewer = document.getElementById("zoomViewer");
+  const zoomImage = document.getElementById("zoomImage");
+  const downloadBtn = document.getElementById("downloadBtn");
+
+  zoomImage.src = imgZoom.src;
+  downloadBtn.href = imgZoom.src;
+
+  zoomViewer.style.display = "flex";
+});
+
+        const comDiv = carte.querySelector(`#coms-${id}`);
+        [...(d.commentaires || [])].reverse().forEach(c => {
+          const div = document.createElement("div");
+          div.className = "commentaire";
+          div.innerHTML += `
+            <img src="${avatar}" style="width:25px;height:25px;border-radius:50%;vertical-align:middle;margin-right:5px;">
+            <strong>${c.pseudo}</strong> <small>${formatDate(c.timestamp)}</small><br>${c.texte}`;
+          comDiv.appendChild(div);
+        });
+
+        galerie.appendChild(carte);
+      });
+    });
+    
+
+    window.ajouterCom = async (id) => {
+      const input = document.getElementById("inputCom-" + id);
+      const texte = input.value.trim();
+      if (!texte) return;
+      const pseudo = localStorage.getItem("pseudo");
+      const avatar = localStorage.getItem("avatar");
+      const ref = doc(db, "images", id);
+      await updateDoc(ref, {
+        commentaires: arrayUnion({
+          pseudo,
+          avatar,
+          texte,
+          timestamp: Date.now()
+        })
+      });
+      input.value = "";
+    };
+document.getElementById("zoomViewer").addEventListener("click", () => {
+  document.getElementById("zoomViewer").style.display = "none";
+});
+
+  </script>
+  <script src="cote.js"></script>
+</body>
+</html>
