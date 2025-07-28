@@ -14,15 +14,29 @@
   <div class="head">
       
       <div class="wave"></div>
-      
-    <button class="menu" onclick="openDrawer()">☰</button>
+      <div style="background-color:#202020;">
+    <button class="menu" onclick="openDrawer()">
+        <svg width="35" height="35" viewBox="0 0 35 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="8" r="4"></circle>
+  <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+</svg>
+    </button>
     <strong class="titre">Astrid Lite</strong>
     
-    <div class="btnPub">
-    <button onclick="Messenger()" class="btnmess"></button>
-        <button onclick="cache()" class="btnpub"></button>
-    </div>
     
+    <button onclick="Messenger()" class="btnmess">
+        <svg width="35" height="35" viewBox="0 0 35 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 1 1 17 0z"/>
+</svg>
+    </button>
+        <button onclick="cache()" class="btnpub">
+            <svg width="35" height="35" viewBox="0 0 35 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 12L12 3l9 9"></path>
+  <path d="M9 21V12h6v9"></path>
+</svg>
+        </button>
+    
+    </div>
   </div>
 
   <div class="drawer" id="drawer">

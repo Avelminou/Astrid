@@ -8,7 +8,7 @@
   
 </head>
 <body>
-    <div style="display: flex; background-color: #ffffff;color: black; padding: 0; border-radius-bottom: 10px;">
+    <div style="display: flex; background-color: #00373c;color: white; padding: 0; border-radius-bottom: 10px;">
   <div id="pseudoZone">
       <div class="protege" id="ident">
     <div class="compte" id="identification">
@@ -211,8 +211,8 @@ function insert() {
 
         carte.innerHTML += `
           <div style="display: flex;">
-            <img src="${avatarURL}" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:1px solid #333; margin-right:10px;">
-            <div style="margin-top: 15px; width: 130px;"><strong style="font-size: 20px;">${d.pseudo}</strong><br><small>• ${formatDate(d.timestamp)}</small></div><h2>${d.titre}</h2>
+            <img src="https://avelminou.github.io/ikwely.mg/${d.pseudo}.jpg" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:1px solid #333; margin-right:10px;">
+            <div style="margin-top: 15px; width: 130px;"><strong class="getname" style="font-size: 20px;">${d.pseudo}</strong><br><small>• ${formatDate(d.timestamp)}</small></div><h2>${d.titre}</h2>
           </div>
           
           <p style="font-size: 15px;">${d.description}</p>
@@ -248,12 +248,14 @@ imgZoom.addEventListener("dblclick", () => {
   zoomViewer.style.display = "flex";
 });
 
+      const gtNm = carte.querySelector(".getname");
+
         const comDiv = carte.querySelector(`#coms-${id}`);
         [...(d.commentaires || [])].reverse().forEach(c => {
           const div = document.createElement("div");
           div.className = "commentaire";
           div.innerHTML += `
-            <img src="${avatar}" style="width:25px;height:25px;border-radius:50%;vertical-align:middle;margin-right:5px;">
+            <img src="https://avelminou.github.io/ikwely.mg/${c.pseudo}.jpg" style="width:25px;height:25px;border-radius:50%;vertical-align:middle;margin-right:5px;">
             <strong>${c.pseudo}</strong> <small>${formatDate(c.timestamp)}</small><br>${c.texte}`;
           comDiv.appendChild(div);
         });
